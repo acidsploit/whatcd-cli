@@ -180,7 +180,7 @@ function whatSearch(searchType) {
              console.log('  - Files: ' + data.torrent.fileCount);
 	     console.log(chalk.yellow(' == ') +  '/' + data.torrent.filePath);
 		
-	     // Parse files and size from file list string
+	     // Parse files and size from file list string and put them in a table
 	     var table = new Table({
 	       chars: { 'top': '' , 'top-mid': '' , 'top-left': '' , 'top-right': ''
 	              , 'bottom': '' , 'bottom-mid': '' , 'bottom-left': '' , 'bottom-right': ''
@@ -194,7 +194,7 @@ function whatSearch(searchType) {
 	     //  console.log('    -> ' + files[i].replace(/\{\{\{/g, ' - ').replace(/\}\}\}/g, ' bytes'));
 	     //}
 	     for (var i = 0; i < files.length; i ++) {
-               var match = files[i].match(/^(.*)\{\{\{(.*)\}\}\}$/);
+               var match = files[i].match(/^(.*)\{\{\{(\d+)\}\}\}$/);
 	       var size = Math.round((match[2] / 1024 / 1024) * 1000) / 1000;
 	       // table.push([ value1, value2 ]);
 	       table.push([match[1], (size < 1 ? ( size < 0.01 ? match[2] + ' B'  : (size * 1024) + ' KB') : size + ' MB')]);
