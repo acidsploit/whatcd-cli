@@ -180,11 +180,7 @@ function whatSearch(searchType) {
              console.log('  - Files: ' + data.torrent.fileCount);
 	     console.log(chalk.yellow(' == ') +  '/' + data.torrent.filePath);
 		
-	     var files = data.torrent.fileList.split("|||");
-	     //for (var i = 0; i < files.length; i ++) {
-	     //  console.log('    -> ' + files[i].replace(/\{\{\{/g, ' - ').replace(/\}\}\}/g, ' bytes'));
-	     //}
-		
+	     // Parse files and size from file list string
 	     var table = new Table({
 	       chars: { 'top': '' , 'top-mid': '' , 'top-left': '' , 'top-right': ''
 	              , 'bottom': '' , 'bottom-mid': '' , 'bottom-left': '' , 'bottom-right': ''
@@ -193,6 +189,10 @@ function whatSearch(searchType) {
 	       style: { 'padding-left': 0, 'padding-right': 0 }
 	     });
 
+	     var files = data.torrent.fileList.split("|||");
+	     //for (var i = 0; i < files.length; i ++) {
+	     //  console.log('    -> ' + files[i].replace(/\{\{\{/g, ' - ').replace(/\}\}\}/g, ' bytes'));
+	     //}
 	     for (var i = 0; i < files.length; i ++) {
                var match = files[i].match(/^(.*)\{\{\{(.*)\}\}\}$/);
 	       var size = Math.round((match[2] / 1024 / 1024) * 1000) / 1000;
