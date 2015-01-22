@@ -170,7 +170,10 @@ function whatSearch(searchType) {
           return onErr(err);
         }
         if (data.group !== undefined) {
-	   console.log(chalk.bold(data.group.year + ' - ' + data.group.name  + ' - Label: ' + (data.group.recordLabel ? data.group.recordLabel : 'N/A' ) + ' - Calatogue: ' + (data.group.catalogueNumber ? data.group.catalogueNumber : 'N/A')));
+	   console.log(chalk.bold(data.group.year + ' - ' + data.group.name  + 
+                                  ' - Label: ' + (data.group.recordLabel ? data.group.recordLabel : 'N/A' ) + 
+                                  ' - Calatogue: ' + (data.group.catalogueNumber ? data.group.catalogueNumber : 'N/A'))
+                      );
 	   if (data.torrent !== undefined) {
 	     console.log(chalk.yellow(' == ') + data.torrent.media + ' - ' + data.torrent.format + ' - ' + data.torrent.encoding);
 	     console.log('  - Seeders: ' + data.torrent.seeders);
