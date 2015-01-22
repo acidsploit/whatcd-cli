@@ -5,6 +5,7 @@ var https    = require('https');
 var fs       = require('fs');
 var path     = require('path');
 var chalk    = require('chalk');
+var Table    = require('cli-table');
 var WhatCD   = require('whatcd');
 var settingsPath = path.join(process.env['XDG_CONFIG_HOME'] || path.join(process.env['HOME'], '.config'), 'whatcd');
 
@@ -180,9 +181,25 @@ function whatSearch(searchType) {
 	     console.log(chalk.yellow(' == ') +  '/' + data.torrent.filePath);
 		
 	     var files = data.torrent.fileList.split("|||");
+	     //for (var i = 0; i < files.length; i ++) {
+	     //  console.log('    -> ' + files[i].replace(/\{\{\{/g, ' - ').replace(/\}\}\}/g, ' bytes'));
+	     //}
+		
+	     var table = new Table({
+	       chars: { 'top': '' , 'top-mid': '' , 'top-left': '' , 'top-right': ''
+	              , 'bottom': '' , 'bottom-mid': '' , 'bottom-left': '' , 'bottom-right': ''
+		      , 'left': '    -> ' , 'left-mid': '' , 'mid': '' , 'mid-mid': ''
+		      , 'right': '' , 'right-mid': '' , 'middle': '   ' },
+	       style: { 'padding-left': 0, 'padding-right': 0 }
+	     });
+
 	     for (var i = 0; i < files.length; i ++) {
-	       console.log('    -> ' + files[i].replace(/\{\{\{/g, ' - ').replace(/\}\}\}/g, ' bytes'));
+               var match = files[i].match(/^(.*)\{\{\{(.*)\}\}\}$/);
+	       var size = Math.round((match[2] / 1024 / 1024) * 1000) / 1000;
+	       // table.push([ value1, value2 ]);
+	       table.push([match[1], (size < 1 ? ( size < 0.01 ? match[2] + ' B'  : (size * 1024) + ' KB') : size + ' MB')]);
 	     }
+	     console.log(table.toString());
            } else {
 	     console.log('');
 	   }
